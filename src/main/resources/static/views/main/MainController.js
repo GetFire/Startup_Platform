@@ -11,11 +11,11 @@ angular.module('greatStartApp')
                 });
             };
 // --------------------------------------------------------
-            $rootScope.loading=false;
-            $scope.$on('LOAD', function () {
+            $rootScope.loading=true;
+            $rootScope.$on('LOAD', function () {
                 $rootScope.loading = true;
             });
-            $scope.$on('UNLOAD', function () {
+            $rootScope.$on('UNLOAD', function () {
                 $rootScope.loading = false;
             });
 // --------------------------------------------------------
