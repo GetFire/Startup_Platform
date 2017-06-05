@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -41,7 +42,8 @@ public class InvestmentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<DtoInvestment> getInvestmentById(@PathVariable long id) {
         if (investmentService.getDtoInvestmentById(id) != null) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -49,7 +51,8 @@ public class InvestmentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping({"", "/"})
+    @PostMapping
+    @Transactional
     public ResponseEntity<DtoInvestment> createInvestment(@Valid @RequestBody DtoInvestment investment) {
         if (investmentValidationService.validate(investment)) {
             DtoInvestment investmentResult = investmentService.saveInvestment(investment);
@@ -60,14 +63,16 @@ public class InvestmentController {
         return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<DtoInvestment> updateInvestment(@PathVariable long id,
                                                           @RequestBody DtoInvestment investment) {
         //todo: implement update investment
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Investment> deleteInvestmentById(@PathVariable long id) {
         if (investmentService.getDtoInvestmentById(id) != null) {
             investmentService.deleteInvestment(id);
