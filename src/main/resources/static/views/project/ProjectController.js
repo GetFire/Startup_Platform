@@ -47,7 +47,8 @@ var ProjectController = angular.module('greatStartApp')
             return true;
         };
 
-        $scope.submit = function() {
+        $scope.submit = function () {
+            $scope.$emit('LOAD');
             if ($scope.imageChanged) {
                 $scope.project.desc.image = $scope.projectCroppedImage.replace(/^data:image\/[a-z]+;base64,/, "");
             }
@@ -65,21 +66,24 @@ var ProjectController = angular.module('greatStartApp')
             } else {
                 $scope.error = $scope.validationMessage;
             }
+            $scope.$emit('UNLOAD');
         };
 
-        var allProjects = function() {
+        var allProjects = function () {
+            $scope.$emit('LOAD');
             return Project.query();
+            $scope.$emit('UNLOAD');
         };
 
-        var myProjects = function() {
+        var myProjects = function () {
+            $scope.$emit('LOAD');
             return Project.my();
+            $scope.$emit('UNLOAD');
         };
 
         // load my projects
         if ($location.path().indexOf("/my") > -1 || $location.path().indexOf("/user/") > -1) {
-            $scope.$emit('LOAD');
             $scope.projects = myProjects();
-            $scope.$emit('UNLOAD');
             // load a single project
         } else if ($location.path().indexOf("/project/") > -1 && $routeParams.id) {
             $scope.$emit('LOAD');
@@ -131,19 +135,23 @@ var ProjectController = angular.module('greatStartApp')
         };
 
         $scope.createProject = function () {
+            $scope.$emit('LOAD');
             Project.save($scope.project, function (success) {
                 $location.path('/projects');
             }, function (error) {
                 $scope.error = error.status + " " + error.statusText;
             });
+            $scope.$emit('UNLOAD');
         };
 
         $scope.deleteProject = function () {
+            $scope.$emit('LOAD');
             Project.delete({id: $scope.project.id}, $scope.project, function (success) {
                 $location.path('/projects');
             }, function (error) {
                 $scope.error = error.status + " " + error.statusText;
             });
+            $scope.$emit('UNLOAD');
         };
 
 
