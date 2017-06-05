@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Implementation of {@link UserDetailsService}.
+ */
+
 @Service
 public class GreatStartUserDetailsService implements UserDetailsService {
 

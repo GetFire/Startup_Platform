@@ -21,6 +21,10 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * A REST controller to handle all {@link net.greatstart.model.Project} requests.
+ */
+
 @RestController
 public class ProjectController {
 
@@ -34,12 +38,14 @@ public class ProjectController {
         this.userService = userService;
     }
 
+    @Transactional
     @GetMapping({"/api/project", "/api/project/"})
     public ResponseEntity<Collection<Project>> getProjects() {
         List<Project> projectList = projectService.getAllProjects();
         return new ResponseEntity<>(projectList, HttpStatus.OK);
     }
 
+    @Transactional
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/api/projects/my")
     public ResponseEntity<Collection<Project>> getMyProjects() {

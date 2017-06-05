@@ -20,6 +20,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * A REST controller to manage {@link net.greatstart.model.Investment} requests.
+ */
+
 @RestController
 @RequestMapping("/api/investment")
 public class InvestmentController {
@@ -34,6 +38,7 @@ public class InvestmentController {
         this.investmentValidationService = investmentValidationService;
     }
 
+    @Transactional
     @GetMapping
     public ResponseEntity<List<DtoInvestment>> getInvestments() {
         if (!investmentService.getAllDtoInvestments().isEmpty()) {
@@ -43,7 +48,6 @@ public class InvestmentController {
     }
 
     @GetMapping("/{id}")
-    @Transactional
     public ResponseEntity<DtoInvestment> getInvestmentById(@PathVariable long id) {
         if (investmentService.getDtoInvestmentById(id) != null) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -51,8 +55,8 @@ public class InvestmentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
     @Transactional
+    @PostMapping({"", "/"})
     public ResponseEntity<DtoInvestment> createInvestment(@Valid @RequestBody DtoInvestment investment) {
         if (investmentValidationService.validate(investment)) {
             DtoInvestment investmentResult = investmentService.saveInvestment(investment);
@@ -63,16 +67,16 @@ public class InvestmentController {
         return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     }
 
-    @PutMapping("/{id}")
     @Transactional
+    @PutMapping("{id}")
     public ResponseEntity<DtoInvestment> updateInvestment(@PathVariable long id,
                                                           @RequestBody DtoInvestment investment) {
         //todo: implement update investment
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
     @Transactional
+    @DeleteMapping("{id}")
     public ResponseEntity<Investment> deleteInvestmentById(@PathVariable long id) {
         if (investmentService.getDtoInvestmentById(id) != null) {
             investmentService.deleteInvestment(id);

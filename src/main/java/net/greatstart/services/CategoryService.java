@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Business logic layer for {@link net.greatstart.model.Category}.
+ */
+
 @Service
 public class CategoryService {
     private CategoryDao categoryDao;
