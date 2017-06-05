@@ -1,4 +1,7 @@
-<div class="container">
+<div ng-show="loading">
+    <div ng-include="'views/main/Loading.html'"></div>
+</div>
+<div ng-show="!loading" class="container">
     <div class="row">
         <div ng-repeat="project in projects">
             <div class="clearfix" ng-if="$index % 3 == 0"></div>
