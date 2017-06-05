@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -41,6 +42,7 @@ public class UserController {
     }
 
     @RequestMapping("/user")
+    @Transactional
     public Principal user(Principal principal) {
         return principal;
     }
@@ -57,6 +59,7 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/api/user/{id}")
+    @Transactional
     public ResponseEntity<DtoUserProfile> getUserById(@PathVariable("id") long id) {
         DtoUserProfile user = userService.getDtoUserProfileById(id);
         if (user != null) {
@@ -67,6 +70,7 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/api/user/{id}")
+    @Transactional
     public ResponseEntity<DtoUserProfile> updateUser(
             @PathVariable("id") long id,
             @Valid @RequestBody DtoUserProfile dtoUser) {
