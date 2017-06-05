@@ -1,5 +1,5 @@
 angular.module('greatStartApp')
-    .controller('InvestmentController', function ($scope, $location, Investment) {
+    .controller('InvestmentController', function ($rootScope, $scope, $location, Investment) {
 
         $scope.getAllInvestments = function () {
             var investments = Investment.query({}, function () {
@@ -8,16 +8,16 @@ angular.module('greatStartApp')
         };
 
         $scope.createInvestment = function () {
-            $scope.investment.investor = $scope.currentUser;
-            $scope.investment.investor.photo = null;
-            $scope.investment.investor.dtoInvestments = null;
-            $scope.investment.investor.projects = null;
+            $scope.investment.investor = $rootScope.currentUser;
+            // $scope.investment.investor.photo = null;
+            // $scope.investment.investor.dtoInvestments = null;
+            // $scope.investment.investor.projects = null;
             $scope.investment.project = $scope.project;
-            $scope.investment.project.image = null;
-            $scope.investment.project.dtoInvestments = null;
-            $scope.investment.verified = false;
-            $scope.investment.paid = false;
-            $scope.investment.dateOfInvestment = null;
+            // $scope.investment.project.image = null;
+            // $scope.investment.project.dtoInvestments = null;
+            // $scope.investment.verified = false;
+            // $scope.investment.paid = false;
+            // $scope.investment.dateOfInvestment = null;
             console.log('Saving New Investment: ', $scope.investment);
             Investment.save($scope.investment, function () {
                 console.log('Investment saved', $scope.investment);
