@@ -48,7 +48,7 @@ var ProjectController = angular.module('greatStartApp')
         };
 
         $scope.submit = function () {
-            $scope.$emit('LOAD');
+            $rootScope.$emit('LOAD');
             if ($scope.imageChanged) {
                 $scope.project.desc.image = $scope.projectCroppedImage.replace(/^data:image\/[a-z]+;base64,/, "");
             }
@@ -66,19 +66,21 @@ var ProjectController = angular.module('greatStartApp')
             } else {
                 $scope.error = $scope.validationMessage;
             }
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('UNLOAD');
         };
 
         var allProjects = function () {
-            $scope.$emit('LOAD');
-            return Project.query();
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('LOAD');
+            var projects = Project.query();
+            $rootScope.$emit('UNLOAD');
+            return projects;
         };
 
         var myProjects = function () {
-            $scope.$emit('LOAD');
-            return Project.my();
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('LOAD');
+            var project = Project.my();
+            $rootScope.$emit('UNLOAD');
+            return project;
         };
 
         // load my projects
@@ -86,19 +88,19 @@ var ProjectController = angular.module('greatStartApp')
             $scope.projects = myProjects();
             // load a single project
         } else if ($location.path().indexOf("/project/") > -1 && $routeParams.id) {
-            $scope.$emit('LOAD');
+            $rootScope.$emit('LOAD');
             var project = Project.get({id: $routeParams.id}, function () {
                 $scope.project = project;
                 $scope.investedAmount = investedAmount(project);
                 $scope.invProgressWithWidth = ivnProgressWithWidth($scope.investedAmount, project);
             });
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('UNLOAD');
             // load all projects
         } else {
-            $scope.$emit('LOAD');
+            $rootScope.$emit('LOAD');
             $scope.project = {};
             $scope.projects = allProjects();
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('UNLOAD');
         }
 
 
@@ -135,23 +137,23 @@ var ProjectController = angular.module('greatStartApp')
         };
 
         $scope.createProject = function () {
-            $scope.$emit('LOAD');
+            $rootScope.$emit('LOAD');
             Project.save($scope.project, function (success) {
                 $location.path('/projects');
             }, function (error) {
                 $scope.error = error.status + " " + error.statusText;
             });
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('UNLOAD');
         };
 
         $scope.deleteProject = function () {
-            $scope.$emit('LOAD');
+            $rootScope.$emit('LOAD');
             Project.delete({id: $scope.project.id}, $scope.project, function (success) {
                 $location.path('/projects');
             }, function (error) {
                 $scope.error = error.status + " " + error.statusText;
             });
-            $scope.$emit('UNLOAD');
+            $rootScope.$emit('UNLOAD');
         };
 
 

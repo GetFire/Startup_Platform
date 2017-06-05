@@ -49,10 +49,12 @@ angular.module('greatStartApp')
         };
 
         $scope.getUser = function () {
+            $rootScope.$emit('LOAD');
             User.get({id: $scope.user.id});
+            $rootScope.$emit('UNLOAD');
         };
 
-        $scope.openPage = function(hash) {
+        $scope.openPage = function (hash) {
             $location.path(hash);
         }
 

@@ -11,7 +11,7 @@ angular.module('greatStartApp')
                 });
             };
 // --------------------------------------------------------
-            $rootScope.loading=true;
+            $rootScope.loading=false;
             $rootScope.$on('LOAD', function () {
                 $rootScope.loading = true;
             });
