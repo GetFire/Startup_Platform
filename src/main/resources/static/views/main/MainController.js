@@ -10,7 +10,14 @@ angular.module('greatStartApp')
                     scope: $scope
                 });
             };
-
+// --------------------------------------------------------
+            $scope.$on('LOAD', function () {
+                $scope.loading = true;
+            });
+            $scope.$on('UNLOAD', function () {
+                $scope.loading = false;
+            });
+// --------------------------------------------------------
             $scope.openPopup = function () {
                 modalPopup().result
                     .then(function () {

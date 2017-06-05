@@ -18,6 +18,7 @@
     <link href="css/ng-img-crop.css" rel="stylesheet">
     <link href="css/background.css" rel="stylesheet">
     <link href="css/round-about.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
     <link href="css/ie.css" rel="stylesheet">
     <link href="css/layout.css" rel="stylesheet"/>
 
@@ -26,7 +27,10 @@
 <div ng-include="'views/main/Navbar.html'"></div>
 
 <!--Placeholder for views-->
-<div>
+<div ng-show="loading">
+    <div ng-include="'views/main/Loading.html'"></div>
+</div>
+<div ng-show="!loading">
     <div ng-view></div>
 </div>
 
