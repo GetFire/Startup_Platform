@@ -10,6 +10,11 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
+/**
+ * Mapstruct provided mapper to convert between {@link User} and
+ * {@link DtoUserProfile}.
+ */
+
 @Mapper(componentModel = "spring")
 public interface UserProfileMapper {
 

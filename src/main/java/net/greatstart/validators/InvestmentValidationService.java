@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+/**
+ * A utility class to validate {@link DtoInvestment}.
+ */
+
 @Component
 public class InvestmentValidationService {
 

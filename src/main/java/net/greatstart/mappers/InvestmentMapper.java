@@ -10,6 +10,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+/**
+ * Mapstruct mapper to convert between {@link Investment} and
+ * {@link DtoInvestment}.
+ */
+
 @Mapper(componentModel = "spring")
 public interface InvestmentMapper {
 

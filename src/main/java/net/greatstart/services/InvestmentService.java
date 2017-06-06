@@ -13,6 +13,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Business logic layer for {@link Investment}.
+ */
+
 @Service
 @Transactional
 public class InvestmentService {

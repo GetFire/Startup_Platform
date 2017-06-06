@@ -13,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Business logic layer for {@link User}.
+ */
+
 @Service
 @Transactional
 public class UserService {

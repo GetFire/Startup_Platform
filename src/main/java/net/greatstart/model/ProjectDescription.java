@@ -10,6 +10,10 @@ import javax.persistence.Lob;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * An entity class to provide description and other details of {@link Project}.
+ */
+
 @Data
 @Embeddable
 public class ProjectDescription {

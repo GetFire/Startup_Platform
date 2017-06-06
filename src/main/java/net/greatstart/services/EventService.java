@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Business logic layer for {@link Event}.
+ */
+
 @Service
 @Transactional
 public class EventService {
