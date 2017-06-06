@@ -35,7 +35,7 @@ public class GreatStartUserDetailsServiceTest {
 
     @Test
     public void loadUserByUsername() throws Exception {
-        net.greatstart.model.User user = new User();
+        User user = new User();
         Set<Role> roles = new HashSet<>();
         roles.add(new Role(ROLE));
         Set<GrantedAuthority> authorities = new HashSet<>();
