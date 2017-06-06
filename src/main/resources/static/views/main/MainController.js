@@ -1,31 +1,22 @@
-angular.module('greatStartApp')
+var greatStart = angular.module('greatStartApp')
     .controller('MainController',
         ['$location', 'LoginService', '$scope', '$uibModal', '$http', '$rootScope', function ($location, LoginService, $scope, $uibModal, $http, $rootScope) {
-            var modalPopup = function () {
-                return $scope.modalInstance = $uibModal.open({
+
+            $rootScope.openPopup = function () {
+                $rootScope.loginModal = $uibModal.open({
                     templateUrl: 'views/main/LoginPage.html',
                     controller: 'LoginController',
                     size: 'md',
-                    backdrop: 'static',
-                    scope: $scope
-                });
-            };
-// --------------------------------------------------------
-            $rootScope.loading=false;
-            $rootScope.$on('LOAD', function () {
-                $rootScope.loading = true;
-            });
-            $rootScope.$on('UNLOAD', function () {
-                $rootScope.loading = false;
-            });
-// --------------------------------------------------------
-            $scope.openPopup = function () {
-                modalPopup().result
+                    backdrop: 'static'
+                    // scope: $rootScope
+                }).result
                     .then(function () {
+                        $rootScope.forgotPass();
                     })
                     .then(null, function () {
                     });
             };
+
 
             $scope.logout = function () {
                 $http.post('logout', {}).finally(function () {
@@ -34,16 +25,39 @@ angular.module('greatStartApp')
                 });
             };
 
-            $scope.forgotPass = function () {
-                $scope.modalInstance.dismiss();
-                $scope.forgotPassModal = $uibModal.open({
+            $rootScope.forgotPass = function () {
+                $rootScope.forgotPassModal = $uibModal.open({
                     templateUrl: 'views/main/ForgotPassword.html',
-                    controller: 'PasswordResetController',
+                    controller: 'ChangePassword',
                     size: 'sm',
                     backdrop: 'static',
-                    scope: $scope
+                    scope: $rootScope
+                }).result.then(function () {
+                }).then(null, function () {
+
                 });
             };
 
             LoginService.authenticate();
         }]);
+
+greatStart.controller('LoginController', function ($rootScope, $scope, $uibModalInstance, LoginService) {
+    $scope.close = function () {
+        $uibModalInstance.dismiss();
+    };
+
+    $scope.credentials = {};
+    $scope.login = function () {
+        LoginService.authenticate($scope.credentials, function () {
+            if ($rootScope.authenticated) {
+                $uibModalInstance.dismiss();
+            } else {
+                $scope.error = true;
+            }
+        })
+    };
+
+    $scope.openForgotPass = function () {
+        $uibModalInstance.close();
+    };
+});

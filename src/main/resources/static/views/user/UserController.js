@@ -1,5 +1,5 @@
 angular.module('greatStartApp')
-    .controller('UserController', function ($scope, $rootScope, User, $location) {
+    .controller('UserController', function ($scope, $rootScope, User, Investment, $location) {
 
         $scope.flag = false;
         $scope.myImage = '';
@@ -49,13 +49,27 @@ angular.module('greatStartApp')
         };
 
         $scope.getUser = function () {
-            $rootScope.$emit('LOAD');
             User.get({id: $scope.user.id});
-            $rootScope.$emit('UNLOAD');
+        };
+
+        $scope.getUserInvestments = function () {
+            var userInvestments = Investment.my({}, function () {
+                $scope.userInvestments = userInvestments;
+            });
         };
 
         $scope.openPage = function (hash) {
             $location.path(hash);
-        }
+        };
+
+        $scope.deleteUserInvestment = function (id) {
+            Investment.delete({id: id}, function (success) {
+                if ($scope.userInvestments !== null) {
+                    $scope.userInvestments = $scope.userInvestments.filter(function (element) {
+                        return element.id !== id;
+                    });
+                }
+            });
+        };
 
     });

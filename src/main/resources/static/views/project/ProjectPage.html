@@ -1,13 +1,10 @@
-<div ng-show="loading">
-    <div ng-include="'views/main/Loading.html'"></div>
-</div>
-<div ng-controller="ProjectController" ng-show="!loading">
+<div>
     <div class="row" style="margin-right: 0">
         <!-- /PRICE ITEM -->
         <div class="col-xs-10 col-md-7 col-xs-offset-1 col-lg-8">
             <!--Project name and goal-->
             <div class="item">
-                <a ng-if="currentUser.id === project.owner.id && project.dtoInvestments.length === 0"
+                <a ng-if="currentUser.id === project.owner.id && projectInvestments.length === 0"
                    class="btn btn-edit pull-right" ng-click="deleteProject()">
                     <span class="glyphicon glyphicon-trash"></span></a>
                 <a ng-if="currentUser.id === project.owner.id" class="btn btn-edit pull-right"
@@ -27,6 +24,7 @@
                     </div>
                 </div>
             </div>
+
             <!--Description-->
             <div class="item">
                 <div class="thumbnail">
@@ -78,17 +76,23 @@
                         </div>
                         <div class="panel-body text-center">
                             <h4>Total project investment {{project.desc.cost | currency}}</h4>
-                            <div class="progress" ng-init="investedAmount(project)">
+                            <div class="progress">
                                 <div class="progress-bar progress-bar-info"
                                      style="{{invProgressWithWidth}}"></div>
                             </div>
-                            <h4 class="text-right">Project need {{(project.desc.cost-investedAmount) | currency}}</h4>
+
+                            <h4 ng-if="project.desc.cost-investedAmount!==0" class="text-right">Project need
+                                {{(project.desc.cost-investedAmount) | currency}}</h4>
                         </div>
                         <div class="panel-footer">
-                            <!--todo modal window popup-->
-                            <button type="button" class="btn btn-success btn-block" ng-click="openApproveModal()">
+                            <button ng-if="project.desc.cost-investedAmount!==0" type="button"
+                                    class="btn btn-success btn-block" ng-click="openApproveModal()">
                                 I want to invest
                             </button>
+                            <div ng-if="project.desc.cost-investedAmount===0" class="alert alert-success text-center">
+                                Achieved
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -109,12 +113,18 @@
                             <div class="progress-bar progress-bar-info"
                                  style="{{invProgressWithWidth}}"></div>
                         </div>
-                        <h5>Project need {{(project.desc.cost-investedAmount) | currency}}</h5>
+
+                        <h4 ng-if="project.desc.cost-investedAmount!==0" class="text-right">Project need
+                            {{(project.desc.cost-investedAmount) | currency}}</h4>
                     </div>
                     <div class="panel-footer">
-                        <button type="button" class="btn btn-success btn-block" ng-click="openApproveModal()">
+                        <button ng-if="project.desc.cost-investedAmount!==0" type="button"
+                                class="btn btn-success btn-block" ng-click="openApproveModal()">
                             I want to invest
                         </button>
+                        <div ng-if="project.desc.cost-investedAmount===0" class="alert alert-success text-center">
+                            Achieved
+                        </div>
                     </div>
                 </div>
             </div>
