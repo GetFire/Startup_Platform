@@ -53,5 +53,3 @@ security:
   enable-csrf: false
 server:
   port: ${PORT}
-
-

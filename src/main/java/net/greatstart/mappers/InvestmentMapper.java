@@ -11,8 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 /**
- * Mapstruct mapper to convert between {@link Investment} and
- * {@link DtoInvestment}.
+ * Mapstruct mapper to convert between {@link net.greatstart.model.Investment} and
+ * {@link net.greatstart.dto.DtoInvestment}.
  */
 
 @Mapper(componentModel = "spring")
@@ -28,13 +28,9 @@ public interface InvestmentMapper {
 
     @Mappings({
             @Mapping(target = "address", source = "contact.address"),
-            @Mapping(target = "phoneNumber", source = "contact.phoneNumber"),
-            @Mapping(target = "dtoInvestments", source = "investments")})
+            @Mapping(target = "phoneNumber", source = "contact.phoneNumber")})
     DtoUserProfile fromUserToDtoProfile(User user);
 
-    @Mappings({
-            @Mapping(source = "investments", target = "dtoInvestments"),
-            @Mapping(target = "owner.dtoInvestments", ignore = true),
-            @Mapping(target = "owner.photo", ignore = true)})
+    @Mapping(target = "owner.photo", ignore = true)
     DtoProject fromProjectToDto(Project project);
 }

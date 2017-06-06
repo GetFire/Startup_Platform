@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Business logic layer for {@link Role}.
+ * Business logic layer for {@link net.greatstart.model.Role}.
  */
 
 @Service

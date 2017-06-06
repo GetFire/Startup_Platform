@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A controller to serve requests regarding the {@link Category} entity.
+ * A controller to serve requests regarding the {@link net.greatstart.model.Category} entity.
  */
 @RestController
 @RequestMapping("/api/category")

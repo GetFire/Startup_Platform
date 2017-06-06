@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 /**
- * A REST controller to manage {@link Investment} requests.
+ * A REST controller to manage {@link net.greatstart.model.Investment} requests.
  */
 
 @RestController
@@ -38,25 +38,34 @@ public class InvestmentController {
         this.investmentValidationService = investmentValidationService;
     }
 
-    @Transactional
     @GetMapping
-    public ResponseEntity<List<DtoInvestment>> getInvestments() {
-        if (!investmentService.getAllDtoInvestments().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<List<DtoInvestment>> getAllInvestments() {
+        List<DtoInvestment> investments = investmentService.getAllDtoInvestments();
+        return new ResponseEntity<>(investments, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<DtoInvestment> getInvestmentById(@PathVariable long id) {
-        if (investmentService.getDtoInvestmentById(id) != null) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        DtoInvestment dtoInvestment = investmentService.getDtoInvestmentById(id);
+        if (dtoInvestment != null) {
+            return new ResponseEntity<>(dtoInvestment, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @Transactional
-    @PostMapping({"", "/"})
+    @GetMapping("my")
+    public ResponseEntity<List<DtoInvestment>> getUserInvestments(Principal principal) {
+        List<DtoInvestment> dtoInvestments = investmentService.getUserDtoInvestmentsByUserEmail(principal.getName());
+        return new ResponseEntity<>(dtoInvestments, HttpStatus.OK);
+    }
+
+    @GetMapping("/project/{id}")
+    public ResponseEntity<List<DtoInvestment>> getProjectInvestments(@PathVariable long id) {
+        List<DtoInvestment> investments = investmentService.getDtoProjectInvestments(id);
+        return new ResponseEntity<>(investments, HttpStatus.OK);
+    }
+
+    @PostMapping
     public ResponseEntity<DtoInvestment> createInvestment(@Valid @RequestBody DtoInvestment investment) {
         if (investmentValidationService.validate(investment)) {
             DtoInvestment investmentResult = investmentService.saveInvestment(investment);
@@ -67,15 +76,15 @@ public class InvestmentController {
         return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     }
 
-    @Transactional
     @PutMapping("{id}")
     public ResponseEntity<DtoInvestment> updateInvestment(@PathVariable long id,
                                                           @RequestBody DtoInvestment investment) {
-        //todo: implement update investment
+        if (investmentService.updateInvestment(investment) != null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @Transactional
     @DeleteMapping("{id}")
     public ResponseEntity<Investment> deleteInvestmentById(@PathVariable long id) {
         if (investmentService.getDtoInvestmentById(id) != null) {

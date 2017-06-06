@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Business logic layer for {@link Event}.
+ * Business logic layer for {@link net.greatstart.model.Event}.
  */
 
 @Service
