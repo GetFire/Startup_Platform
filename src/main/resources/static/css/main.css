@@ -192,7 +192,7 @@ hr {
 
 .big-photo {
     max-height: 320px;
-    width: auto
+    width: 320px;
 }
 
 .navbar-content {
